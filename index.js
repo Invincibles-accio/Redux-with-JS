@@ -1,6 +1,7 @@
 // import redux from "redux" // es6 module
 const redux = require("redux") // common js module
 const bindActionCreators = redux.bindActionCreators  // helper function
+const combineReducers = redux.combineReducers // helper function
 
 // create store: 
 const createStore = redux.createStore
@@ -56,13 +57,19 @@ function policyRemoved(){
 
   // now redcuers: 
 
-let initialState = {
-    number_of_customers : 1000,
+// let initialState = {
+//     number_of_customers : 1000,
+//     number_of_policies: 100
+// }
+let initialStateCustomers = {
+    number_of_customers : 1000
+}
+let initialStatePolicies = {
     number_of_policies: 100
 }
 
 
-const reducer1 = (state=initialState, action) =>{
+const customerReducer = (state=initialStateCustomers, action) =>{
 
     switch(action.type){
         case CUSTOMER_ADD:
@@ -75,6 +82,15 @@ const reducer1 = (state=initialState, action) =>{
                     ...state,
                     number_of_customers: state.number_of_customers - action.customers
                 }
+        default:
+            return state
+    }
+
+}
+
+const policyReducer = (state=initialStatePolicies, action) =>{
+
+    switch(action.type){
         case POLICY_ADDED:
                  return{
                     ...state,
@@ -100,8 +116,15 @@ const reducer1 = (state=initialState, action) =>{
 // 5) JS app  can subscribe to the store to be notified of state changes, also unsubscribe
 
 
+// rootReducer:
 
-const store = createStore(reducer1) // store is an object , store is created
+const rootReducer = combineReducers({
+    customer: customerReducer,
+    policy: policyReducer
+})
+
+
+const store = createStore(rootReducer) // store is an object , store is created
 
 console.log("Initial state", store.getState()) // intital state => 1000
 
@@ -124,3 +147,9 @@ actions.policyAdded()
 actions.policyRemoved()
 
 
+//Initial state { number_of_customers: 1000, number_of_policies: 100 }
+
+// Initial state {
+//     customer: { number_of_customers: 1000 },
+//     policy: { number_of_policies: 100 }
+//   }
