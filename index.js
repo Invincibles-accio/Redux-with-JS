@@ -8,8 +8,10 @@ const createStore = redux.createStore
 
 
 // create const variables for all actions types
-const CUSTOMER_COUNT = "CUSTOMER_COUNT"
+const CUSTOMER_ADD = "CUSTOMER_ADD"
 const CUSTOMER_LEFT = "CUSTOMER_LEFT"
+const POLICY_ADDED = "POLICY_ADDED"
+const POLICY_REMOVED = "POLICY_REMOVED"
 
 
 // action: 
@@ -20,9 +22,9 @@ const CUSTOMER_LEFT = "CUSTOMER_LEFT"
 
   // action creator => simple function that returns an action
 
-function  customerCount(){ //  whenver a customer joins, we will call this function
+function  customerAdd(){ //  whenver a customer joins, we will call this function
        return {
-        type: CUSTOMER_COUNT,
+        type: CUSTOMER_ADD,
         customers:  1
       }
 }
@@ -34,17 +36,36 @@ function customerLeft(count){
     }
 }
 
+
+// action creator for policy added 
+
+function policyAdded(){
+    return{
+        type: POLICY_ADDED,
+        policy: 1
+    }
+}
+
+function policyRemoved(){
+    return{
+        type: POLICY_REMOVED,
+        policy: 1
+    }
+}
+
+
   // now redcuers: 
 
 let initialState = {
-    number_of_customers : 1000
+    number_of_customers : 1000,
+    number_of_policies: 100
 }
 
 
 const reducer1 = (state=initialState, action) =>{
 
     switch(action.type){
-        case CUSTOMER_COUNT:
+        case CUSTOMER_ADD:
                 return{
                     ...state,
                     number_of_customers: state.number_of_customers + action.customers
@@ -54,6 +75,16 @@ const reducer1 = (state=initialState, action) =>{
                     ...state,
                     number_of_customers: state.number_of_customers - action.customers
                 }
+        case POLICY_ADDED:
+                 return{
+                    ...state,
+                    number_of_policies: state.number_of_policies + action.policy
+                 }
+        case POLICY_REMOVED:
+            return{
+                ...state,
+                number_of_policies: state.number_of_policies - action.policy
+             }
         default:
             return state
     }
@@ -81,9 +112,15 @@ store.subscribe((()=> console.log("Updated state", store.getState())))
 // store.dispatch(customerCount())
 // store.dispatch(customerLeft(10))
 
-const actions =  bindActionCreators({customerCount, customerLeft}, store.dispatch )
+const actions =  bindActionCreators({customerAdd, customerLeft, policyAdded, policyRemoved}, store.dispatch )
 
-actions.customerCount()
-actions.customerCount()
-actions.customerCount()
+actions.customerAdd()
+actions.customerAdd()
+actions.customerAdd()
 actions.customerLeft(10)
+
+actions.policyAdded()
+actions.policyAdded()
+actions.policyRemoved()
+
+
