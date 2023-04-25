@@ -23,7 +23,7 @@ let initialState = {
     }
 }
 
-const customerReducer = (state=initialState, action) =>{
+const reducer = (state=initialState, action) =>{
 
     switch(action.type){
         case FAVOURITE_SUBJECT:
@@ -46,8 +46,10 @@ const customerReducer = (state=initialState, action) =>{
 }
 
 
-const store = createStore(rootReducer) // store is an object , store is created
+const store = createStore(reducer) // store is an object , store is created
 
 console.log("Initial state", store.getState()) // intital state => 1000
 
 store.subscribe((()=> console.log("Updated state", store.getState())))
+
+store.dispatch(favouriteSubject("Science"))
