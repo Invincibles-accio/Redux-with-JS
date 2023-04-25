@@ -53,3 +53,10 @@ console.log("Initial state", store.getState()) // intital state => 1000
 store.subscribe((()=> console.log("Updated state", store.getState())))
 
 store.dispatch(favouriteSubject("Science"))
+
+
+
+
+// middelware:
+
+

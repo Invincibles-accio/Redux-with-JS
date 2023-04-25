@@ -3,6 +3,12 @@ const redux = require("redux") // common js module
 const bindActionCreators = redux.bindActionCreators  // helper function
 const combineReducers = redux.combineReducers // helper function
 
+const applyMiddleware = redux.applyMiddleware
+
+
+const reduxLogger = require("redux-logger") 
+const logger = reduxLogger.createLogger() // logger is a middleware
+
 // create store: 
 const createStore = redux.createStore
 // this createStore variable is tecnically a   a  function 
@@ -124,7 +130,7 @@ const rootReducer = combineReducers({
 })
 
 
-const store = createStore(rootReducer) // store is an object , store is created
+const store = createStore(rootReducer, applyMiddleware(logger)) // store is an object , store is created
 
 console.log("Initial state", store.getState()) // intital state => 1000
 
@@ -136,6 +142,7 @@ store.subscribe((()=> console.log("Updated state", store.getState())))
 // store.dispatch(customerLeft(10))
 
 const actions =  bindActionCreators({customerAdd, customerLeft, policyAdded, policyRemoved}, store.dispatch )
+
 
 actions.customerAdd()
 actions.customerAdd()
